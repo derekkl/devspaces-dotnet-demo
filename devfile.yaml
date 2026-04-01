@@ -52,6 +52,3 @@ commands:
       commandLine: dotnet test
       workingDir: ${PROJECT_SOURCE}
 
-events:
-  postStart:
-    - build
