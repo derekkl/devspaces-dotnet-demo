@@ -7,7 +7,7 @@ metadata:
 components:
   - name: tools
     container:
-      image: registry.access.redhat.com/ubi8/dotnet-80:latest
+      image: registry.redhat.io/devspaces/udi-rhel8:latest
       memoryLimit: 1512Mi
       mountSources: true
       endpoints:
