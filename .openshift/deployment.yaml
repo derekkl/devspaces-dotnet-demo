@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: northwind-dotnet
+  labels:
+    app: northwind-dotnet
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: northwind-dotnet
+  template:
+    metadata:
+      labels:
+        app: northwind-dotnet
+    spec:
+      containers:
+        - name: northwind-dotnet
+          image: northwind-dotnet:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:8080
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          resources:
+            requests:
+              memory: 256Mi
+              cpu: 100m
+            limits:
+              memory: 512Mi
+              cpu: 500m

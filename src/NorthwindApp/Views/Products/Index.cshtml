@@ -1,0 +1,63 @@
+@model IEnumerable<NorthwindApp.Models.Product>
+@{
+    ViewData["Title"] = "Products";
+    var categories = ViewBag.Categories as IEnumerable<NorthwindApp.Models.Category>;
+    int? selectedCategory = ViewBag.CategoryId;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Products</h1>
+    <span class="badge bg-secondary fs-6">@Model.Count() items</span>
+</div>
+
+<div class="mb-3 d-flex flex-wrap gap-2">
+    <a asp-action="Index" class="btn btn-sm @(selectedCategory == null ? "btn-primary" : "btn-outline-primary")">All</a>
+    @foreach (var cat in categories ?? Enumerable.Empty<NorthwindApp.Models.Category>())
+    {
+        <a asp-action="Index" asp-route-categoryId="@cat.Id"
+           class="btn btn-sm @(selectedCategory == cat.Id ? "btn-primary" : "btn-outline-primary")">
+            @cat.Name
+        </a>
+    }
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Supplier</th>
+                <th class="text-end">Unit Price</th>
+                <th class="text-end">In Stock</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr class="@(p.Discontinued ? "text-muted" : "")">
+                    <td>@p.Name</td>
+                    <td>@p.Category?.Name</td>
+                    <td>@p.SupplierName</td>
+                    <td class="text-end">$@p.UnitPrice.ToString("0.00")</td>
+                    <td class="text-end">@p.UnitsInStock</td>
+                    <td>
+                        @if (p.Discontinued)
+                        {
+                            <span class="badge bg-secondary">Discontinued</span>
+                        }
+                        else if (p.UnitsInStock == 0)
+                        {
+                            <span class="badge bg-danger">Out of Stock</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">In Stock</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

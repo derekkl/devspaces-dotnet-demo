@@ -1,0 +1,66 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1 class="mb-4">Dashboard</h1>
+
+<div class="row g-4 mb-5">
+    <div class="col-sm-6 col-md-3">
+        <div class="card stat-card h-100">
+            <div class="card-body">
+                <div class="text-muted small">Products</div>
+                <div class="fs-2 fw-bold">@ViewBag.ProductCount</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="card stat-card h-100" style="border-color: #198754;">
+            <div class="card-body">
+                <div class="text-muted small">Categories</div>
+                <div class="fs-2 fw-bold">@ViewBag.CategoryCount</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="card stat-card h-100" style="border-color: #6f42c1;">
+            <div class="card-body">
+                <div class="text-muted small">Customers</div>
+                <div class="fs-2 fw-bold">@ViewBag.CustomerCount</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="card stat-card h-100" style="border-color: #dc3545;">
+            <div class="card-body">
+                <div class="text-muted small">Orders</div>
+                <div class="fs-2 fw-bold">@ViewBag.OrderCount</div>
+                <div class="text-danger small">@ViewBag.PendingOrders pending</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">Quick Links</div>
+            <div class="list-group list-group-flush">
+                <a asp-controller="Products" asp-action="Index" class="list-group-item list-group-item-action">
+                    Browse Products
+                </a>
+                <a asp-controller="Categories" asp-action="Index" class="list-group-item list-group-item-action">
+                    Browse Categories
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">About this Demo</div>
+            <div class="card-body text-muted small">
+                <p>This is an ASP.NET Core 8 MVC application running on <strong>Red Hat OpenShift</strong>, developed using <strong>Red Hat Dev Spaces</strong>.</p>
+                <p class="mb-0">Data is persisted in a local SQLite database seeded with classic Northwind Traders sample data.</p>
+            </div>
+        </div>
+    </div>
+</div>

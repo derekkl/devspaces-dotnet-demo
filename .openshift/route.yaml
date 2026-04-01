@@ -1,0 +1,15 @@
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: northwind-dotnet
+  labels:
+    app: northwind-dotnet
+spec:
+  to:
+    kind: Service
+    name: northwind-dotnet
+  port:
+    targetPort: 8080
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect

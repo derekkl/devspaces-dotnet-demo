@@ -1,0 +1,57 @@
+schemaVersion: 2.2.0
+metadata:
+  name: devspaces-dotnet-demo
+  version: 1.0.0
+  description: ASP.NET Core Northwind demo for Red Hat Dev Spaces
+
+components:
+  - name: tools
+    container:
+      image: registry.access.redhat.com/ubi8/dotnet-80:latest
+      memoryLimit: 1512Mi
+      mountSources: true
+      endpoints:
+        - name: http-8080
+          targetPort: 8080
+          protocol: http
+          exposure: public
+      env:
+        - name: ASPNETCORE_URLS
+          value: http://+:8080
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development
+
+commands:
+  - id: build
+    exec:
+      label: "Build"
+      component: tools
+      commandLine: dotnet build src/NorthwindApp/NorthwindApp.csproj
+      workingDir: ${PROJECT_SOURCE}
+
+  - id: run
+    exec:
+      label: "Run"
+      component: tools
+      commandLine: dotnet run --project src/NorthwindApp/NorthwindApp.csproj
+      workingDir: ${PROJECT_SOURCE}
+      hotReloadCapable: false
+
+  - id: watch
+    exec:
+      label: "Run (watch)"
+      component: tools
+      commandLine: dotnet watch --project src/NorthwindApp/NorthwindApp.csproj run
+      workingDir: ${PROJECT_SOURCE}
+      hotReloadCapable: true
+
+  - id: test
+    exec:
+      label: "Test"
+      component: tools
+      commandLine: dotnet test
+      workingDir: ${PROJECT_SOURCE}
+
+events:
+  postStart:
+    - build

@@ -1,0 +1,30 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: northwind-dotnet
+  labels:
+    app: northwind-dotnet
+spec:
+  source:
+    type: Git
+    git:
+      uri: https://github.com/derekkl/devspaces-dotnet-demo.git
+      ref: main
+    contextDir: src/NorthwindApp
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: dotnet:8.0
+      env:
+        - name: DOTNET_STARTUP_PROJECT
+          value: NorthwindApp.csproj
+  output:
+    to:
+      kind: ImageStreamTag
+      name: northwind-dotnet:latest
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
